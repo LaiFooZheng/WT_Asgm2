@@ -1,0 +1,83 @@
+{
+  "users": [
+    {
+      "id": "2",
+      "name": "Jane Smith",
+      "username": "jane",
+      "password": "password456",
+      "email": "jane.smith@example.com",
+      "course": "Data Science",
+      "role": "user"
+    },
+    {
+      "id": "4",
+      "name": "usertest",
+      "username": "bob",
+      "password": "password101",
+      "email": "bob.brown@example.com",
+      "course": "Artificial Intelligence",
+      "role": "user"
+    },
+    {
+      "id": "612f",
+      "name": "user1",
+      "username": "user1",
+      "password": "123",
+      "email": "123@1",
+      "course": "123",
+      "role": "user"
+    }
+  ],
+  "materials": [
+    {
+      "id": "1",
+      "title": "Introduction to Web Technology",
+      "description": "Basic concepts of web technology",
+      "course": "Web Technology"
+    },
+    {
+      "id": "2",
+      "title": "Data Science Fundamentals",
+      "description": "Introduction to data science concepts",
+      "course": "Data Science"
+    },
+    {
+      "id": "3",
+      "title": "Machine Learning Basics",
+      "description": "Basic machine learning algorithms and applications",
+      "course": "Machine Learning"
+    },
+    {
+      "id": "4",
+      "title": "Artificial Intelligence Overview test",
+      "description": "Overview of AI concepts and techniques",
+      "course": "Artificial Intelligence"
+    }
+  ],
+  "assessments": [
+    {
+      "id": "1",
+      "title": "Web Technology Quiz 1",
+      "description": "Quiz on basic web technology concepts",
+      "course": "Web Technology"
+    },
+    {
+      "id": "2",
+      "title": "Data Science Assignment 1",
+      "description": "First assignment for data science",
+      "course": "Data Science"
+    },
+    {
+      "id": "3",
+      "title": "Machine Learning Project ddddd",
+      "description": "Project on implementing a machine learning algorithm",
+      "course": "Machine Learning"
+    },
+    {
+      "id": "5",
+      "title": "Web Technology Final Exam",
+      "description": "Comprehensive exam for web technology course",
+      "course": "Web Technology"
+    }
+  ]
+}
