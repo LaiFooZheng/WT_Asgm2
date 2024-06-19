@@ -1,6 +1,15 @@
 {
   "users": [
     {
+      "id": "1",
+      "name": "user1",
+      "username": "user1",
+      "password": "123",
+      "email": "user1@example.com",
+      "course": "Web Technology",
+      "role": "user"
+    },
+    {
       "id": "2",
       "name": "Jane Smith",
       "username": "jane",
@@ -10,21 +19,21 @@
       "role": "user"
     },
     {
+      "id": "3",
+      "name": "Alice Johnson",
+      "username": "alice",
+      "password": "password789",
+      "email": "alice.johnson@example.com",
+      "course": "Machine Learning",
+      "role": "user"
+    },
+    {
       "id": "4",
-      "name": "usertest",
+      "name": "Bob Brown",
       "username": "bob",
       "password": "password101",
       "email": "bob.brown@example.com",
       "course": "Artificial Intelligence",
-      "role": "user"
-    },
-    {
-      "id": "612f",
-      "name": "user1",
-      "username": "user1",
-      "password": "123",
-      "email": "123@1",
-      "course": "123",
       "role": "user"
     }
   ],
@@ -49,9 +58,15 @@
     },
     {
       "id": "4",
-      "title": "Artificial Intelligence Overview test",
+      "title": "Artificial Intelligence Overview",
       "description": "Overview of AI concepts and techniques",
       "course": "Artificial Intelligence"
+    },
+    {
+      "id": "5",
+      "title": "Advanced Web Technologies",
+      "description": "In-depth study of modern web technologies",
+      "course": "Web Technology"
     }
   ],
   "assessments": [
@@ -69,13 +84,19 @@
     },
     {
       "id": "3",
-      "title": "Machine Learning Project ddddd",
+      "title": "Machine Learning Project",
       "description": "Project on implementing a machine learning algorithm",
       "course": "Machine Learning"
     },
     {
+      "id": "4",
+      "title": "Artificial Intelligence Midterm",
+      "description": "Midterm exam covering AI concepts",
+      "course": "Artificial Intelligence"
+    },
+    {
       "id": "5",
-      "title": "Web Technology Final Exam",
+      "title": "Web Technology Final Exam Test",
       "description": "Comprehensive exam for web technology course",
       "course": "Web Technology"
     }
