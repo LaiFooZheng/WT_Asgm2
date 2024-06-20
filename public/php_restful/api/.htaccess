@@ -1,0 +1,5 @@
+RewriteEngine On
+RewriteBase /WT_Asgm2/public/php_restful/api/
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php [QSA,L]

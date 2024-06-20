@@ -43,7 +43,7 @@ const login = async () => {
 </script> -->
 
 <!-- PHP -->
-<script setup>
+<!-- <script setup>
 import { reactive, inject } from 'vue'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Modal } from 'bootstrap'
@@ -59,6 +59,50 @@ const loginData = reactive({
 
 const login = async () => {
   const response = await fetch('http://localhost/WT_Asgm2/public/php/index.php/users')
+  const allUsers = await response.json()
+  const user = allUsers.find(
+    (user) => user.username === loginData.username && user.password === loginData.password
+  )
+  if (user) {
+    alert('Login successful!')
+    isLoggedIn.value = true
+    loggedInUser.value = user
+    users.value = allUsers
+    var myModalEl = document.getElementById('loginModal')
+    var modal = Modal.getInstance(myModalEl) || new Modal(myModalEl)
+    modal.hide()
+    myModalEl.classList.remove('show')
+    myModalEl.style.display = 'none'
+    document.body.classList.remove('modal-open')
+    document.body.style.overflow = ''
+    document.body.style.paddingRight = ''
+    var modalBackdrops = document.getElementsByClassName('modal-backdrop')
+    while (modalBackdrops[0]) {
+      modalBackdrops[0].parentNode.removeChild(modalBackdrops[0])
+    }
+  } else {
+    alert('Invalid username or password')
+  }
+}
+</script> -->
+
+<!-- RESTful PHP -->
+<script setup>
+import { reactive, inject } from 'vue'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import { Modal } from 'bootstrap'
+
+const users = inject('users')
+const isLoggedIn = inject('isLoggedIn')
+const loggedInUser = inject('loggedInUser')
+
+const loginData = reactive({
+  username: '',
+  password: ''
+})
+
+const login = async () => {
+  const response = await fetch('http://localhost/WT_Asgm2/public/php_restful/api/users')
   const allUsers = await response.json()
   const user = allUsers.find(
     (user) => user.username === loginData.username && user.password === loginData.password

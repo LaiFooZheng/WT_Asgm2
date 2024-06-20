@@ -164,7 +164,7 @@ onMounted(() => {
 </script> -->
 
 <!-- PHP -->
-<script setup>
+<!-- <script setup>
 import { ref, onMounted } from 'vue'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Modal } from 'bootstrap'
@@ -217,6 +217,75 @@ const updateUser = async () => {
 const deleteUser = async (id) => {
   console.log('Deleting user with id:', id)
   const response = await fetch(`http://localhost/WT_Asgm2/public/php/index.php/users/${id}`, {
+    method: 'DELETE'
+  })
+  if (response.ok) {
+    users.value = users.value.filter((user) => user.id !== id)
+  } else {
+    console.error('Failed to delete user', response.statusText)
+    alert('Failed to delete user')
+  }
+}
+
+onMounted(() => {
+  fetchUsers()
+})
+</script> -->
+
+<!-- RESTful PHP -->
+<script setup>
+import { ref, onMounted } from 'vue'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import { Modal } from 'bootstrap'
+
+const users = ref([])
+const editData = ref({ id: null, name: '', email: '', course: '', role: '' })
+
+const fetchUsers = async () => {
+  const response = await fetch('http://localhost/WT_Asgm2/public/php_restful/api/users')
+  if (response.ok) {
+    users.value = await response.json()
+  } else {
+    console.error('Failed to fetch users', response.statusText)
+    alert('Failed to fetch users')
+  }
+}
+
+const editUser = (user) => {
+  editData.value = { ...user }
+  const myModalEl = document.getElementById('editUserModal')
+  const modal = Modal.getInstance(myModalEl) || new Modal(myModalEl)
+  modal.show()
+}
+
+const updateUser = async () => {
+  console.log('Updating user:', editData.value)
+  const response = await fetch(
+    `http://localhost/WT_Asgm2/public/php_restful/api/users/${editData.value.id}`,
+    {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(editData.value)
+    }
+  )
+  if (response.ok) {
+    const updatedUser = await response.json()
+    const index = users.value.findIndex((user) => user.id === updatedUser.id)
+    users.value[index] = updatedUser
+    const myModalEl = document.getElementById('editUserModal')
+    const modal = Modal.getInstance(myModalEl)
+    modal.hide()
+  } else {
+    console.error('Failed to update user', response.statusText)
+    alert('Failed to update user')
+  }
+}
+
+const deleteUser = async (id) => {
+  console.log('Deleting user with id:', id)
+  const response = await fetch(`http://localhost/WT_Asgm2/public/php_restful/api/users/${id}`, {
     method: 'DELETE'
   })
   if (response.ok) {

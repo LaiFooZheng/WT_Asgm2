@@ -152,7 +152,7 @@ onMounted(() => {
 </script> -->
 
 <!-- PHP -->
-<script setup>
+<!-- <script setup>
 import { ref, onMounted } from 'vue'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Modal } from 'bootstrap'
@@ -203,6 +203,73 @@ const updateMaterial = async () => {
 
 const deleteMaterial = async (id) => {
   const response = await fetch(`http://localhost/WT_Asgm2/public/php/index.php/materials/${id}`, {
+    method: 'DELETE'
+  })
+  if (response.ok) {
+    materials.value = materials.value.filter((material) => material.id !== id)
+  } else {
+    console.error('Failed to delete material', response.statusText)
+    alert('Failed to delete material')
+  }
+}
+
+onMounted(() => {
+  fetchMaterials()
+})
+</script> -->
+
+<!-- Restful PHP -->
+<script setup>
+import { ref, onMounted } from 'vue'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import { Modal } from 'bootstrap'
+
+const materials = ref([])
+const editData = ref({ id: null, title: '', description: '', course: '' })
+
+const fetchMaterials = async () => {
+  const response = await fetch('http://localhost/WT_Asgm2/public/php_restful/api/materials')
+  if (response.ok) {
+    materials.value = await response.json()
+  } else {
+    console.error('Failed to fetch materials', response.statusText)
+    alert('Failed to fetch materials')
+  }
+}
+
+const editMaterial = (material) => {
+  editData.value = { ...material }
+  const myModalEl = document.getElementById('editMaterialModal')
+  const modal = Modal.getInstance(myModalEl) || new Modal(myModalEl)
+  modal.show()
+}
+
+const updateMaterial = async () => {
+  const response = await fetch(
+    `http://localhost/WT_Asgm2/public/php_restful/api/materials/${editData.value.id}`,
+    {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(editData.value)
+    }
+  )
+  if (response.ok) {
+    const updatedMaterial = await response.json()
+    const index = materials.value.findIndex((material) => material.id === updatedMaterial.id)
+    materials.value[index] = updatedMaterial
+    const myModalEl = document.getElementById('editMaterialModal')
+    const modal = Modal.getInstance(myModalEl)
+    modal.hide()
+  } else {
+    console.error('Failed to update material', response.statusText)
+    alert('Failed to update material')
+  }
+}
+
+const deleteMaterial = async (id) => {
+  const response = await fetch(`http://localhost/WT_Asgm2/public/php_restful/api/materials/${id}`, {
     method: 'DELETE'
   })
   if (response.ok) {

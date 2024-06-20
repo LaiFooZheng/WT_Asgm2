@@ -154,7 +154,7 @@ onMounted(() => {
 </script> -->
 
 <!-- PHP -->
-<script setup>
+<!-- <script setup>
 import { ref, onMounted } from 'vue'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Modal } from 'bootstrap'
@@ -209,6 +209,78 @@ const deleteAssessment = async (id) => {
   const response = await fetch(`http://localhost/WT_Asgm2/public/php/index.php/assessments/${id}`, {
     method: 'DELETE'
   })
+  if (response.ok) {
+    assessments.value = assessments.value.filter((assessment) => assessment.id !== id)
+  } else {
+    console.error('Failed to delete assessment', response.statusText)
+    alert('Failed to delete assessment')
+  }
+}
+
+onMounted(() => {
+  fetchAssessments()
+})
+</script> -->
+
+<!-- Restful PHP -->
+<script setup>
+import { ref, onMounted } from 'vue'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import { Modal } from 'bootstrap'
+
+const assessments = ref([])
+const editData = ref({ id: null, title: '', description: '', course: '' })
+
+const fetchAssessments = async () => {
+  const response = await fetch('http://localhost/WT_Asgm2/public/php_restful/api/assessments')
+  if (response.ok) {
+    assessments.value = await response.json()
+  } else {
+    console.error('Failed to fetch assessments', response.statusText)
+    alert('Failed to fetch assessments')
+  }
+}
+
+const editAssessment = (assessment) => {
+  editData.value = { ...assessment }
+  const myModalEl = document.getElementById('editAssessmentModal')
+  const modal = Modal.getInstance(myModalEl) || new Modal(myModalEl)
+  modal.show()
+}
+
+const updateAssessment = async () => {
+  const response = await fetch(
+    `http://localhost/WT_Asgm2/public/php_restful/api/assessments/${editData.value.id}`,
+    {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(editData.value)
+    }
+  )
+  if (response.ok) {
+    const updatedAssessment = await response.json()
+    const index = assessments.value.findIndex(
+      (assessment) => assessment.id === updatedAssessment.id
+    )
+    assessments.value[index] = updatedAssessment
+    const myModalEl = document.getElementById('editAssessmentModal')
+    const modal = Modal.getInstance(myModalEl)
+    modal.hide()
+  } else {
+    console.error('Failed to update assessment', response.statusText)
+    alert('Failed to update assessment')
+  }
+}
+
+const deleteAssessment = async (id) => {
+  const response = await fetch(
+    `http://localhost/WT_Asgm2/public/php_restful/api/assessments/${id}`,
+    {
+      method: 'DELETE'
+    }
+  )
   if (response.ok) {
     assessments.value = assessments.value.filter((assessment) => assessment.id !== id)
   } else {
