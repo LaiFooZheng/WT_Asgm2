@@ -115,7 +115,7 @@ const register = async () => {
 </script> -->
 
 <!-- RESTful PHP -->
-<script setup>
+<!-- <script setup>
 import { reactive } from 'vue'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Modal } from 'bootstrap'
@@ -169,6 +169,66 @@ const register = async () => {
       }
     } else {
       console.error('Registration failed:', data)
+      alert('Registration failed!')
+    }
+  } catch (error) {
+    console.error('Error during registration:', error)
+    alert('An error occurred during registration!')
+  }
+}
+</script> -->
+
+<!-- PHP Slim -->
+<script setup>
+import { reactive } from 'vue'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import { Modal } from 'bootstrap'
+
+const registerData = reactive({
+  name: '',
+  username: '',
+  password: '',
+  email: '',
+  course: '',
+  role: 'user'
+})
+
+const register = async () => {
+  const newUser = {
+    name: registerData.name,
+    username: registerData.username,
+    password: registerData.password,
+    email: registerData.email,
+    course: registerData.course,
+    role: registerData.role
+  }
+
+  try {
+    const response = await fetch('http://localhost:8000/api/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(newUser)
+    })
+
+    const data = await response.json()
+
+    if (response.ok) {
+      alert('Registration successful!')
+      var myModalEl = document.getElementById('registerModal')
+      var modal = Modal.getInstance(myModalEl) || new Modal(myModalEl)
+      modal.hide()
+      myModalEl.classList.remove('show')
+      myModalEl.style.display = 'none'
+      document.body.classList.remove('modal-open')
+      document.body.style.overflow = ''
+      document.body.style.paddingRight = ''
+      var modalBackdrops = document.getElementsByClassName('modal-backdrop')
+      while (modalBackdrops[0]) {
+        modalBackdrops[0].parentNode.removeChild(modalBackdrops[0])
+      }
+    } else {
       alert('Registration failed!')
     }
   } catch (error) {

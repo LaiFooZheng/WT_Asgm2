@@ -87,7 +87,7 @@ const login = async () => {
 </script> -->
 
 <!-- RESTful PHP -->
-<script setup>
+<!-- <script setup>
 import { reactive, inject } from 'vue'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Modal } from 'bootstrap'
@@ -112,6 +112,54 @@ const login = async () => {
     isLoggedIn.value = true
     loggedInUser.value = user
     users.value = allUsers
+    var myModalEl = document.getElementById('loginModal')
+    var modal = Modal.getInstance(myModalEl) || new Modal(myModalEl)
+    modal.hide()
+    myModalEl.classList.remove('show')
+    myModalEl.style.display = 'none'
+    document.body.classList.remove('modal-open')
+    document.body.style.overflow = ''
+    document.body.style.paddingRight = ''
+    var modalBackdrops = document.getElementsByClassName('modal-backdrop')
+    while (modalBackdrops[0]) {
+      modalBackdrops[0].parentNode.removeChild(modalBackdrops[0])
+    }
+  } else {
+    alert('Invalid username or password')
+  }
+}
+</script> -->
+
+<!-- PHP Slim -->
+<script setup>
+import { reactive, inject } from 'vue'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import { Modal } from 'bootstrap'
+
+const users = inject('users')
+const isLoggedIn = inject('isLoggedIn')
+const loggedInUser = inject('loggedInUser')
+
+const loginData = reactive({
+  username: '',
+  password: ''
+})
+
+const login = async () => {
+  const response = await fetch('http://localhost:8000/api/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(loginData)
+  })
+  const data = await response.json()
+  if (response.ok) {
+    alert('Login successful!')
+    isLoggedIn.value = true
+    loggedInUser.value = data
+    const usersResponse = await fetch('http://localhost:8000/api/users')
+    users.value = await usersResponse.json()
     var myModalEl = document.getElementById('loginModal')
     var modal = Modal.getInstance(myModalEl) || new Modal(myModalEl)
     modal.hide()
